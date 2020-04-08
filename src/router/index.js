@@ -6,7 +6,7 @@ import Login from '@/views/Login.vue';
 import Article from '@/views/Article.vue';
 import Admin from '@/views/Admin.vue';
 import Add from '@/views/Admin/Add.vue';
-
+import NotFound404 from '@/views/NotFound404.vue';
 
 Vue.use(VueRouter);
 
@@ -31,6 +31,7 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
+  { path: '*', name: 'NotFound404', component: NotFound404 },
 ];
 
 const router = new VueRouter({
