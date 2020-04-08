@@ -1,18 +1,52 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <article v-for="(item, index) in articles" :key="index">
+      <h3>{{ item.title }}</h3>
+      <i>{{ item.date }}</i>
+      <span>{{ item.content | subContent(0, 150)}}</span>
+    </article>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import axios from 'axios';
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld,
+  filters: {
+    subContent(content, start, end) {
+      return content.substring(start, end);
+    },
+  },
+  data() {
+    return {
+      articles: [],
+    };
+  },
+  mounted() {
+    const api = 'https://us-central1-expressapi-8c039.cloudfunctions.net/app/article';
+    axios.get(api).then((response) => {
+      this.articles = response.data.data;
+    });
   },
 };
 </script>
+
+<style lang="scss" scoped>
+  article {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 80vw;
+    height: 200px;
+    margin: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    background-color: #dddddd;
+    border-radius: 16px;
+    i {
+      color: #cccccc;
+    }
+  }
+</style>

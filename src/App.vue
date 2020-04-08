@@ -1,12 +1,29 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-    </div>
+    </div> -->
+    <Header></Header>
     <router-view/>
   </div>
 </template>
+
+<script>
+// @ is an alias to /src
+import Header from '@/components/Header.vue';
+
+export default {
+  name: 'App',
+  components: {
+    Header,
+  },
+  data() {
+    return {
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
