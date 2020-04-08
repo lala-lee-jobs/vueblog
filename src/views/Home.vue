@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <article v-for="(item, index) in articles" :key="index">
-      <h3>{{ item.title }}</h3>
+      <h3 @click.prevent="routerToArticle(item.id)">{{ item.title }}</h3>
       <i>{{ item.date }}</i>
       <span>{{ item.content | subContent(0, 150)}}</span>
     </article>
@@ -28,6 +28,11 @@ export default {
     axios.get(api).then((response) => {
       this.articles = response.data.data;
     });
+  },
+  methods: {
+    routerToArticle(id) {
+      this.$router.push({ name: 'Article', params: { id } });
+    },
   },
 };
 </script>
