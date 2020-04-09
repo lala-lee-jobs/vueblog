@@ -49,8 +49,5 @@ export default {
       console.log(id);
     },
   },
-  mounted() {
-    this.$store.dispatch('fetchArticles');
-  },
 };
 </script>

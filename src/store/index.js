@@ -35,6 +35,9 @@ export default new Vuex.Store({
     CHANGE_SEARCH(state, payload) {
       state.search = payload;
     },
+    ADD_ARTICLE(state, payload) {
+      state.articles = [payload, ...state.articles];
+    },
   },
   actions: {
     async fetchArticles({ commit }) {
@@ -46,6 +49,10 @@ export default new Vuex.Store({
     },
     changeSearch({ commit }, payload = '') {
       commit('CHANGE_SEARCH', payload);
+    },
+    addArticle({ commit }, payload) {
+      const newArticle = { ...payload, id: payload.date };
+      commit('ADD_ARTICLE', newArticle);
     },
   },
   modules: {
