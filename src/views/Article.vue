@@ -1,33 +1,27 @@
 <template>
-  <article v-if="articles.length">
-    <h3>{{ filterById.title }}</h3>
-    <i>{{ filterById.date }}</i>
-    <span v-html="filterById.content"></span>
+  <article v-if="getArticleById">
+    <h3>{{ getArticleById.title }}</h3>
+    <i>發表時間：{{ getArticleById.date | formatDate }}</i>
+    <p v-html="getArticleById.content"></p>
   </article>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
   name: 'Article',
   data() {
     return {
       articleId: '',
-      articles: [],
     };
   },
   mounted() {
     const { id } = this.$route.params;
     this.articleId = id;
-    const api = 'https://us-central1-expressapi-8c039.cloudfunctions.net/app/article';
-    axios.get(api).then((response) => {
-      this.articles = response.data.data;
-    });
+    this.$store.dispatch('fetchArticles');
   },
   computed: {
-    filterById() {
-      return this.articles.filter((item) => item.id === this.articleId)[0];
+    getArticleById() {
+      return this.$store.getters.getArticleById(this.articleId);
     },
   },
 };

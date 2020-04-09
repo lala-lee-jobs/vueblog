@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <Header></Header>
+    <loading :active.sync="isLoading"></loading>
     <router-view/>
   </div>
 </template>
@@ -8,15 +9,24 @@
 <script>
 // @ is an alias to /src
 import Header from '@/components/Header.vue';
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
   components: {
     Header,
+    Loading,
   },
   data() {
     return {
     };
+  },
+  computed: {
+    ...mapState(['isLoading']),
   },
 };
 </script>
