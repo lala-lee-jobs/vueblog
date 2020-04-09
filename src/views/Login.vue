@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     routerToAdmin() {
-      this.$router.push({ name: 'Admin' });
+      this.$router.push({ name: 'AdminHome' });
     },
   },
 };

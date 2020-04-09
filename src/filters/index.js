@@ -8,3 +8,9 @@ Vue.filter('formatDate', (value, format = 'YYYY-MM-DD HH:mm:ss') => {
   }
   return '——';
 });
+
+Vue.filter('subContent', (value, start = 0, length, suffix = '') => {
+  let result = value.substr(start, length);
+  result = `${result}${suffix}`;
+  return result;
+});

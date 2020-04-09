@@ -5,7 +5,8 @@ import Home from '@/views/Home.vue';
 import Login from '@/views/Login.vue';
 import Article from '@/views/Article.vue';
 import Admin from '@/views/Admin.vue';
-import Add from '@/views/Admin/Add.vue';
+import AdminHome from '@/views/Admin/AdminHome.vue';
+import AdminAdd from '@/views/Admin/AdminAdd.vue';
 import NotFound404 from '@/views/NotFound404.vue';
 
 Vue.use(VueRouter);
@@ -19,8 +20,9 @@ const routes = [
     name: 'Admin',
     component: Admin,
     children: [
-      { path: '/', name: 'Admin-Home', component: Admin },
-      { path: '/add', name: 'Admin-Add', component: Add },
+      { path: '', name: 'AdminHome', component: AdminHome },
+      { path: 'add', name: 'AdminAdd', component: AdminAdd },
+      { path: 'edit/:id', name: 'AdminEdit', component: AdminAdd },
     ],
   },
   {

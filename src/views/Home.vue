@@ -4,7 +4,7 @@
       <article v-for="(item, index) in getArticlesBySearch" :key="index">
         <h3 @click.prevent="routerToArticle(item.id)">{{ item.title }}</h3>
         <i>發表時間：{{ item.date | formatDate }}</i>
-        <p>{{ item.content | subContent(0, 150)}}</p>
+        <p>{{ item.content | subContent(0, 150, '...')}}</p>
       </article>
     </section>
     <section class="home-side-bar">
@@ -21,11 +21,6 @@ export default {
   name: 'Home',
   components: {
     SideBar,
-  },
-  filters: {
-    subContent(content, start, end) {
-      return content.substring(start, end);
-    },
   },
   data() {
     return {};
