@@ -9,20 +9,20 @@ export default new Vuex.Store({
     isLoading: false,
     articles: [],
     search: '',
+    focusID: null,
   },
   getters: {
     getArticleById(state) {
-      return (id) => state.articles.find((item) => item.id === id);
+      if (state.articles.length) {
+        return state.articles.find((item) => item.id === state.focusID);
+      }
+      return [];
     },
     getArticlesBySearch(state) {
-      let result = [];
-      if (state.search.trim().length === 0) {
-        result = [...state.articles];
-      } else {
-        result = [...state.articles.filter((item) => item.title.includes(state.search))];
+      if (state.articles.length && state.search.trim().length) {
+        return [...state.articles.filter((item) => item.title.includes(state.search))];
       }
-
-      return result;
+      return [...state.articles];
     },
   },
   mutations: {
@@ -38,6 +38,9 @@ export default new Vuex.Store({
     ADD_ARTICLE(state, payload) {
       state.articles = [payload, ...state.articles];
     },
+    CHANGE_FOCUSID(state, payload) {
+      state.focusID = payload;
+    },
   },
   actions: {
     async fetchArticles({ commit }) {
@@ -49,6 +52,9 @@ export default new Vuex.Store({
     },
     changeSearch({ commit }, payload = '') {
       commit('CHANGE_SEARCH', payload);
+    },
+    changeFoucusID({ commit }, payload) {
+      commit('CHANGE_FOCUSID', payload);
     },
     addArticle({ commit }, payload) {
       const newArticle = { ...payload, id: payload.date };

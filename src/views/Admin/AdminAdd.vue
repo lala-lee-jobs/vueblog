@@ -42,6 +42,18 @@ export default {
       },
     };
   },
+  computed: {
+    getArticleById() {
+      const article = this.$store.getters.getArticleById;
+      console.log('computed getArticleById', article);
+      return article;
+    },
+  },
+  watch: {
+    getArticleById(value) {
+      console.log('getArticleById', value);
+    },
+  },
   methods: {
     ...mapActions(['addArticle']),
     resetFormData() {
@@ -56,6 +68,12 @@ export default {
       this.addArticle(this.formData);
       this.$router.push({ name: 'AdminHome' });
     },
+  },
+  mounted() {
+    if (this.$route.name === 'AdminEdit') {
+      const { id } = this.$route.params;
+      this.$store.dispatch('changeFoucusID', id);
+    }
   },
 };
 </script>
