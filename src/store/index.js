@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import axios from 'axios';
+import db from './firestore';
 
 Vue.use(Vuex);
 
@@ -45,10 +45,12 @@ export default new Vuex.Store({
   actions: {
     async fetchArticles({ commit }) {
       commit('LOADING', true);
-      const api = 'https://us-central1-expressapi-8c039.cloudfunctions.net/app/article';
-      const response = await axios.get(api);
+      const ref = db.collection('Articles');
+      const result = await ref.get();
+      const payload = [];
+      result.forEach((item) => payload.push({ id: item.id, ...item.data() }));
       commit('LOADING', false);
-      commit('SET_ARTICLES', response.data.data);
+      commit('SET_ARTICLES', payload);
     },
     changeSearch({ commit }, payload = '') {
       commit('CHANGE_SEARCH', payload);
