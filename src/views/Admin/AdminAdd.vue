@@ -20,9 +20,12 @@
           max-rows="6"
         ></b-form-textarea>
       </b-form-group>
-      <div>
+      <div v-if="!submited">
         <b-button type="submit" variant="primary" @click.prevent="submitFormData">送出</b-button>
         <b-button variant="danger" @click.prevent="resetFormData">重置</b-button>
+      </div>
+      <div v-else>
+        <b-spinner label="Spinning"></b-spinner>
       </div>
     </b-form>
   </div>
@@ -40,6 +43,7 @@ export default {
         date: '',
         content: '',
       },
+      submited: false,
     };
   },
   computed: {
@@ -65,6 +69,7 @@ export default {
       };
     },
     submitFormData() {
+      this.submited = true;
       this.formData.date = new Date().getTime();
       if (this.$route.name === 'AdminEdit') {
         const { id } = this.$route.params;
