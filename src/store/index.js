@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import db from './firestore';
 
 Vue.use(Vuex);
+const ref = db.collection('Articles');
 
 export default new Vuex.Store({
   state: {
@@ -45,7 +46,6 @@ export default new Vuex.Store({
   actions: {
     async fetchArticles({ commit }) {
       commit('LOADING', true);
-      const ref = db.collection('Articles');
       const result = await ref.get();
       const payload = [];
       result.forEach((item) => payload.push({ id: item.id, ...item.data() }));
@@ -58,8 +58,9 @@ export default new Vuex.Store({
     changeFoucusID({ commit }, payload) {
       commit('CHANGE_FOCUSID', payload);
     },
-    addArticle({ commit }, payload) {
-      const newArticle = { ...payload, id: payload.date };
+    async addArticle({ commit }, payload) {
+      const addRef = await ref.add(payload);
+      const newArticle = { ...payload, id: addRef.id };
       commit('ADD_ARTICLE', newArticle);
     },
   },
