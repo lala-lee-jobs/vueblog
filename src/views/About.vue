@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>About Lala</h1>
+    <h1>About Lala Test GitHub</h1>
   </div>
 </template>
