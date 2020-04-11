@@ -15,26 +15,26 @@ jobs:
         with:
           node-version: '12.x'
       - name: Install Dependencies
-        working-directory: ./deploy
+        # working-directory: ./deploy
         run: npm install
       - name: Build Project
-        working-directory: ./deploy
+        # working-directory: ./deploy
         run: npm run build
-      # - name: Archive Dist Folder
-      #   uses: actions/upload-artifact@master
-      #   with:
-      #     name: dist
-      #     path: dist
+      - name: Archive Dist Folder
+        uses: actions/upload-artifact@master
+        with:
+          name: dist
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
         uses: actions/checkout@master
-      # - name: Download Artifact
-      #   uses: actions/download-artifact@master
-      #   with:
-      #     name: dist
+      - name: Download Artifact
+        uses: actions/download-artifact@master
+        with:
+          name: dist
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
