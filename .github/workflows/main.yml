@@ -5,17 +5,20 @@ on:
       - master
 
 jobs:
-  firebase-deploy:
-
+  project-build:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@master
-    - uses: actions/setup-node@master
+    - name: Checkout Repo
+      uses: actions/checkout@master
+    - name: Setup Node
+      uses: actions/setup-node@master
       with:
         node-version: '12.x'
-    - run: npm install
-    - run: npm run build
+    - name: Install Dependencies
+      run: npm install
+    - name: Build Project
+      run: npm run build
+    - name: Make Dist Folder
     - uses: actions/upload-artifact@master
       with:
         name: dist
