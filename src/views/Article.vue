@@ -7,22 +7,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'Article',
   data() {
     return {
-      articleId: '',
     };
   },
   mounted() {
     const { id } = this.$route.params;
-    this.articleId = id;
-    this.$store.dispatch('fetchArticles');
+    this.$store.dispatch('changeFoucusID', id);
   },
   computed: {
-    getArticleById() {
-      return this.$store.getters.getArticleById(this.articleId);
-    },
+    ...mapGetters(['getArticleById']),
   },
 };
 </script>
