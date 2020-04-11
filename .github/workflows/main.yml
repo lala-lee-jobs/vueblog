@@ -19,7 +19,7 @@ jobs:
     - name: Build Project
       run: npm run build
     - name: Make Dist Folder
-    - uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@master
       with:
         name: dist
         path: dist
