@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'AdminAdd',
@@ -43,19 +43,20 @@ export default {
     };
   },
   computed: {
-    getArticleById() {
-      const article = this.$store.getters.getArticleById;
-      console.log('computed getArticleById', article);
-      return article;
-    },
+    ...mapState(['articleChanged']),
+    ...mapGetters(['getArticleById']),
   },
   watch: {
     getArticleById(value) {
-      console.log('getArticleById', value);
+      this.formData.title = value.title;
+      this.formData.content = value.content;
+    },
+    articleChanged() {
+      this.$router.push({ name: 'AdminHome' });
     },
   },
   methods: {
-    ...mapActions(['addArticle']),
+    ...mapActions(['addArticle', 'updateArticle']),
     resetFormData() {
       this.formData = {
         title: '',
@@ -65,8 +66,12 @@ export default {
     },
     submitFormData() {
       this.formData.date = new Date().getTime();
-      this.addArticle(this.formData);
-      this.$router.push({ name: 'AdminHome' });
+      if (this.$route.name === 'AdminEdit') {
+        const { id } = this.$route.params;
+        this.updateArticle({ id, article: this.formData });
+      } else {
+        this.addArticle(this.formData);
+      }
     },
   },
   mounted() {

@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     isLoading: false,
     articles: [],
+    articleChanged: false,
     search: '',
     focusID: null,
   },
@@ -36,11 +37,17 @@ export default new Vuex.Store({
     CHANGE_SEARCH(state, payload) {
       state.search = payload;
     },
-    ADD_ARTICLE(state, payload) {
-      state.articles = [payload, ...state.articles];
-    },
     CHANGE_FOCUSID(state, payload) {
       state.focusID = payload;
+    },
+    ADD_ARTICLE(state, payload) {
+      state.articles = [payload, ...state.articles];
+      state.articleChanged = !state.articleChanged;
+    },
+    UPDATE_ARTICLE(state, { id, article }) {
+      const index = state.articles.findIndex((item) => item.id === id);
+      state.articles[index] = article;
+      state.articleChanged = !state.articleChanged;
     },
   },
   actions: {
@@ -62,6 +69,11 @@ export default new Vuex.Store({
       const addRef = await ref.add(payload);
       const newArticle = { ...payload, id: addRef.id };
       commit('ADD_ARTICLE', newArticle);
+    },
+    async updateArticle({ commit }, payload) {
+      const docRef = ref.doc(payload.id);
+      await docRef.update(payload.article);
+      commit('UPDATE_ARTICLE', payload);
     },
   },
   modules: {
